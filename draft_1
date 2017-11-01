@@ -1,0 +1,99 @@
+diff_levels = ["easy", "medium", "hard"]
+user_choice = input("Please select a difficulty level ") 
+
+easy_quiz = "Easy test __1__ goes __2__ blob __3__ here __4__."
+easy_answers =["banana", "blob", "grape", "apple"]
+med_quiz = "Medium test __1__ goes __2__ blob __3__ here __4__."
+med_answers =["banana", "orange", "grape", "apple"]
+hard_quiz = "Hard test __1__ goes __2__ blob __3__ here __4__."
+hard_answers =["banana", "orange", "grape", "apple"]
+ml_string = "place"
+blanks = ["__1__", "__2__", "__3__", "__4__"]
+
+
+def level_selection(choice):
+    while choice not in diff_levels:
+        choice = input("Please select a VALID difficulty level ") 
+    return choice
+    
+def quiz_connector ():
+    quiz = level_selection(user_choice)
+    if quiz == "easy":
+        easy_q(easy_quiz, blanks)
+    if quiz == "medium":
+        med_q(med_quiz,blanks)
+    elif quiz == "hard":
+        hard_q(hard_quiz,blanks)
+
+def q_locator(word, blanks):
+    for pos in blanks:
+        if pos in word:
+            return pos
+    return None 
+
+def correct_ans(attempt):
+    att = 1
+    question = 1
+    while att < 4 and question < 4:
+        if attempt == easy_answers[question - 1]:
+            print("Correct!")
+            question += 1
+            attempt = input("next question: ")
+        else:
+            attempt = input("please try again: ")
+            att +=1
+    print("game over")
+        
+
+      
+def easy_q(ml_string, blanks):
+    replaced = []
+    ml_string = easy_quiz
+    print(ml_string)
+    ml_string2 = ml_string.split()
+    for word in ml_string2:
+        replacement = q_locator(word,blanks)
+        if replacement != None:
+            user_input = input("Please answer question: " + replacement + " ")
+            word = word.replace(replacement,user_input)
+            replaced.append(word)
+        else:
+            replaced.append(word)
+    replaced = " ".join(replaced)
+    print(replaced)
+    
+def med_q(ml_string, blanks):
+    replaced = []
+    ml_string = med_quiz
+    print(ml_string)
+    ml_string2 = ml_string.split()
+    for word in ml_string2:
+        replacement = q_locator(word,blanks)
+        if replacement != None:
+            user_input = input("Please answer question: " + replacement + " ")
+            word = word.replace(replacement,user_input)
+            replaced.append(word)
+        else:
+            replaced.append(word)
+    replaced = " ".join(replaced)
+    print(replaced)
+
+def hard_q(ml_string, blanks):
+    replaced = []
+    ml_string = hard_quiz
+    print(ml_string)
+    ml_string2 = ml_string.split()
+    for word in ml_string2:
+        replacement = q_locator(word,blanks)
+        if replacement != None:
+            user_input = input("Please answer question: " + replacement + " ")
+            word = word.replace(replacement,user_input)
+            replaced.append(word)
+        else:
+            replaced.append(word)
+    replaced = " ".join(replaced)
+    print(replaced)
+    
+
+        
+quiz_connector()
