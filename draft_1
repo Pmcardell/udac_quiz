@@ -31,7 +31,8 @@ def q_locator(word, blanks):
             return pos
     return None 
 
-def correct_ans(attempt):
+def correct_ans():
+    attempt = input("Please answer the first question: ")
     att = 1
     question = 1
     while att < 4 and question < 4:
