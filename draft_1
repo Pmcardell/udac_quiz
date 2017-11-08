@@ -1,100 +1,130 @@
+# a list of valid quiz difficulty levels
 diff_levels = ["easy", "medium", "hard"]
-user_choice = input("Please select a difficulty level ") 
 
-easy_quiz = "Easy test __1__ goes __2__ blob __3__ here __4__."
-easy_answers =["banana", "blob", "grape", "apple"]
-med_quiz = "Medium test __1__ goes __2__ blob __3__ here __4__."
-med_answers =["banana", "orange", "grape", "apple"]
-hard_quiz = "Hard test __1__ goes __2__ blob __3__ here __4__."
-hard_answers =["banana", "orange", "grape", "apple"]
-ml_string = "place"
+# beginning prompt for the user to select a quiz difficulty
+user_choice = input("Please select a difficulty level (easy/medium/hard) ").lower() 
+
+# easy quiz string
+easy_quiz = """Tech Test: Famous for making the iPhone; __1__ is an American 
+technology company based in Cupertino, CA.  Based in Seattle, WA; __2__ is
+the world's largest internet-based retailer.  __3__ is based in Redmond, 
+WA and was founded by Bill Gates. The word's largest search engine is __4__."""
+
+# easy answer key
+easy_answers =["apple", "amazon", "microsoft", "google"]
+
+# medium quiz string
+med_quiz = """Python Compound Statements: The __1__ statement is used for 
+conditional execution.  The  __2__ statement is used for repeated execution 
+as long as an expression is true. The __3__ statement is used to iterate over
+ the elements of a sequence (like a string, tuple or list). The __4__ 
+ statement specifies exception handlers and/or cleanup code for a group 
+ of statements."""
+ 
+# medium answer key
+med_answers =["if", "while", "for", "try"]
+
+# hard quiz string
+hard_quiz = """Python Data Types: A __1__ is a sequence of characters. 
+They are definied either with a single or double quote. 
+A __2__ represents a real number and are written with a decimal point 
+dividing an integer.  Speaking of integers; type: __3__ represents a whole
+ number (without decimals). Finally type __4__ is a boolean value that can
+ either be True or False."""
+ 
+# hard answer key
+hard_answers =["string", "float", "int", "bool"]
+
+# a list that identifies where the player must enter the answer
 blanks = ["__1__", "__2__", "__3__", "__4__"]
 
-
+''' function that will determine if you entered a valid difficulty level
+inputs -> user difficulty selection
+will keep prompting user if invalid
+output -> valid difficulty selection
+'''
 def level_selection(choice):
     while choice not in diff_levels:
         choice = input("Please select a VALID difficulty level ") 
     return choice
-    
+
+
+''' function that connects your difficulty selection to the appropriate quiz 
+inputs -> none
+outputs -> calling the quiz function with correct quiz string and answer list
+'''  
 def quiz_connector ():
     quiz = level_selection(user_choice)
     if quiz == "easy":
-        easy_q(easy_quiz, blanks)
+        quiz_q(easy_quiz, blanks, easy_answers)
     if quiz == "medium":
-        med_q(med_quiz,blanks)
+        quiz_q(med_quiz,blanks, med_answers)
     elif quiz == "hard":
-        hard_q(hard_quiz,blanks)
+        quiz_q(hard_quiz,blanks, hard_answers)
 
+
+''' function that locates the quiz answer blanks
+Inputs -> word in the string, the question placeholder
+Outputs -> None if it does not locate a question, Question if it does
+'''
 def q_locator(word, blanks):
     for pos in blanks:
         if pos in word:
             return pos
     return None 
 
-def correct_ans():
-    attempt = input("Please answer the first question: ")
-    att = 1
-    question = 1
-    while att < 4 and question < 4:
-        if attempt == easy_answers[question - 1]:
+
+''' function that determines if the user's answer is correct
+inputs -> users answer to the question, the question # (1-4) this points
+to the correct answer in the key
+outputs -> validated answer
+'''
+def correct_ans(input1, question, diff):
+    max_attempts = 4
+    attempts = 1
+    answer_list = diff
+    while attempts < max_attempts:
+        if input1 == answer_list[question]:
             print("Correct!")
             question += 1
-            attempt = input("next question: ")
+            return input1
         else:
-            attempt = input("please try again: ")
-            att +=1
-    print("game over")
-        
+            input1 = input("Incorrect! Please try again ") 
+            attempts += 1
+    while attempts >= max_attempts:
+        print ("incorrect answer")
+        return "INCORRECT"
+       
 
-      
-def easy_q(ml_string, blanks):
+''' 
+inputs -> selected quiz as a string, and the question identifyer list
+outputs -> the quiz is printed with the answers included
+'''
+def quiz_q(q_string, blanks, diff):
     replaced = []
-    ml_string = easy_quiz
-    print(ml_string)
-    ml_string2 = ml_string.split()
-    for word in ml_string2:
+    print(q_string)
+    q_string2 = q_string.split()
+    # question number (1-4) parameter for correct_ans
+    question1 = 0
+    # position in quiz list, helps with printing the quiz after correct ans
+    position = 0
+    for word in q_string2:
         replacement = q_locator(word,blanks)
         if replacement != None:
-            user_input = input("Please answer question: " + replacement + " ")
-            word = word.replace(replacement,user_input)
+            user_input = input("Please answer question: " + replacement + " ").lower()
+            answer_word = correct_ans(user_input,question1,diff)
+            word = word.replace(replacement,answer_word)
             replaced.append(word)
+            question1 += 1
+            position += 1
+            quiz_status = replaced + q_string2[position:]
+            print(" ".join(quiz_status))
         else:
             replaced.append(word)
-    replaced = " ".join(replaced)
-    print(replaced)
-    
-def med_q(ml_string, blanks):
-    replaced = []
-    ml_string = med_quiz
-    print(ml_string)
-    ml_string2 = ml_string.split()
-    for word in ml_string2:
-        replacement = q_locator(word,blanks)
-        if replacement != None:
-            user_input = input("Please answer question: " + replacement + " ")
-            word = word.replace(replacement,user_input)
-            replaced.append(word)
-        else:
-            replaced.append(word)
+            position += 1    
     replaced = " ".join(replaced)
     print(replaced)
 
-def hard_q(ml_string, blanks):
-    replaced = []
-    ml_string = hard_quiz
-    print(ml_string)
-    ml_string2 = ml_string.split()
-    for word in ml_string2:
-        replacement = q_locator(word,blanks)
-        if replacement != None:
-            user_input = input("Please answer question: " + replacement + " ")
-            word = word.replace(replacement,user_input)
-            replaced.append(word)
-        else:
-            replaced.append(word)
-    replaced = " ".join(replaced)
-    print(replaced)
-    
 
-        
+# running this function will trigger all appropriate procedures        
 quiz_connector()
