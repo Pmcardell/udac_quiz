@@ -1,3 +1,5 @@
+#Udacidty quiz from Intro to Programming Nanodegree
+
 # a list of valid quiz difficulty levels
 diff_levels = ["easy", "medium", "hard"]
 
@@ -38,35 +40,27 @@ hard_answers =["string", "float", "int", "bool"]
 # a list that identifies where the player must enter the answer
 blanks = ["__1__", "__2__", "__3__", "__4__"]
 
-''' function that will determine if you entered a valid difficulty level
-inputs -> user difficulty selection
-will keep prompting user if invalid
-output -> valid difficulty selection
-'''
-def level_selection(choice):
+# function that will determine if you entered a valid difficulty level
+#inputs -> user difficulty selection
+#will keep prompting user if invalid
+#output -> valid difficulty selection, and calling the quiz function with correct quiz string and answer list
+
+def level_selection():
+    choice = user_choice
     while choice not in diff_levels:
         choice = input("Please select a VALID difficulty level ") 
-    return choice
-
-
-''' function that connects your difficulty selection to the appropriate quiz 
-inputs -> none
-outputs -> calling the quiz function with correct quiz string and answer list
-'''  
-def quiz_connector ():
-    quiz = level_selection(user_choice)
-    if quiz == "easy":
+    print("you have selected: ",choice)
+    if choice == "easy":
         quiz_q(easy_quiz, blanks, easy_answers)
-    if quiz == "medium":
-        quiz_q(med_quiz,blanks, med_answers)
-    elif quiz == "hard":
-        quiz_q(hard_quiz,blanks, hard_answers)
+    if choice == "medium":
+        quiz_q(med_quiz, blanks, med_answers)
+    elif choice == "hard":
+        quiz_q(hard_quiz, blanks, hard_answers)
 
+# function that locates the quiz answer blanks 
+# Inputs -> word in the string, the question placeholder 
+# Outputs -> None if it does not locate a question, Question if it does#
 
-''' function that locates the quiz answer blanks
-Inputs -> word in the string, the question placeholder
-Outputs -> None if it does not locate a question, Question if it does
-'''
 def q_locator(word, blanks):
     for pos in blanks:
         if pos in word:
@@ -74,11 +68,10 @@ def q_locator(word, blanks):
     return None 
 
 
-''' function that determines if the user's answer is correct
-inputs -> users answer to the question, the question # (1-4) this points
-to the correct answer in the key
-outputs -> validated answer
-'''
+# function that determines if the user's answer is correct 
+#inputs -> users answer to the question, the question # (1-4) this points to the correct answer in the key
+#outputs -> validated answer
+
 def correct_ans(input1, question, diff):
     max_attempts = 4
     attempts = 1
@@ -94,12 +87,9 @@ def correct_ans(input1, question, diff):
     while attempts >= max_attempts:
         print ("incorrect answer")
         return "INCORRECT"
-       
+#inputs -> selected quiz as a string, and the question identifyer list
+#outputs -> the quiz is printed with the answers included
 
-''' 
-inputs -> selected quiz as a string, and the question identifyer list
-outputs -> the quiz is printed with the answers included
-'''
 def quiz_q(q_string, blanks, diff):
     replaced = []
     print(q_string)
@@ -127,4 +117,4 @@ def quiz_q(q_string, blanks, diff):
 
 
 # running this function will trigger all appropriate procedures        
-quiz_connector()
+level_selection()
