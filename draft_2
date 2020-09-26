@@ -45,7 +45,7 @@ blanks = ["__1__", "__2__", "__3__", "__4__"]
 #will keep prompting user if invalid
 #output -> valid difficulty selection, and calling the quiz function with correct quiz string and answer list
 
-def level_selection():
+def main():
     choice = user_choice
     while choice not in diff_levels:
         choice = input("Please select a VALID difficulty level ") 
@@ -117,4 +117,4 @@ def quiz_q(q_string, blanks, diff):
 
 
 # running this function will trigger all appropriate procedures        
-level_selection()
+main()
